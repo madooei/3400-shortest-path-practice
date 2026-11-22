@@ -9,8 +9,7 @@ public final class MinCostPathSettled {
     // This class should not be instantiated!
   }
 
-  // A vertex paired with the tentative distance it was added to the frontier
-  // with. Steps compare by distance alone.
+  // A vertex paired with a tentative distance. Steps compare by distance only.
   private static class Step<V> implements Comparable<Step<V>> {
     private final V vertex;
     private final double distance;
