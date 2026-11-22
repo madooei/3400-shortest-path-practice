@@ -118,4 +118,17 @@ public abstract class MinCostPathTest {
     graph.addEdge("Boston", "Albany", 3.0);
     assertEquals(3.0, cheapestCost(graph, "Albany", "Boston"));
   }
+
+  @Test
+  public void stopsAtATargetEqualToTheOneInTheGraph() {
+    // Java reuses one Integer object for each value from -128 to 127. These
+    // vertices are above that range, so the target given to cheapestCost is
+    // equal to the vertex in the graph but is a different object.
+    Graph<Integer> graph = new AdjacencyListGraph<>();
+    graph.addVertex(1000);
+    graph.addVertex(1001);
+    graph.addEdge(1000, 1001, 1.0);
+    graph.addEdge(1001, 1000, 1.0);
+    assertEquals(1.0, cheapestCost(graph, 1000, 1001));
+  }
 }
