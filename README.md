@@ -66,7 +66,7 @@ code/
 - `scripts/test.sh practice.NetworkDelaySweepingTest` — compiles everything and runs only that test class, so you can test one solution at a time.
 - `scripts/run.sh demo.NetworkDelaySettlingDemo` — compiles everything and runs that one demo. Every solution class has its own demo, `<Class>Demo`.
 
-## What's here
+## Contents
 
 - `practice.NetworkDelaySweeping` — `networkDelay`, which relaxes every edge of the graph, pass after pass, until a whole pass changes nothing, then takes the largest time.
 - `practice.NetworkDelaySettling` — `networkDelay`, which runs Dijkstra's algorithm and takes the largest distance.
