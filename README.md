@@ -22,7 +22,7 @@ code/
         AdjacencyListGraph.java       # unchanged copy of the graph chapter's implementation
       set/
         Set.java                      # unchanged copy of the course Set ADT
-        HashSet.java                  # a set backed by the course HashMap
+        HashSet.java                  # a hash set with separate chaining, copied from the chaining chapter
       map/
         Map.java                      # unchanged copy of the course Map ADT
         HashMap.java                  # unchanged copy of the course hash table
