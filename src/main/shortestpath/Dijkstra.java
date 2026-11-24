@@ -5,8 +5,6 @@ import list.ArrayList;
 import list.List;
 import map.HashMap;
 import map.Map;
-import priorityqueue.ArrayHeap;
-import priorityqueue.PriorityQueue;
 import set.HashSet;
 import set.Set;
 import stack.ArrayStack;
@@ -26,22 +24,17 @@ public final class Dijkstra {
   public static <V> Map<V, Double> shortestDistances(Graph<V> graph, V source) {
     Map<V, Double> distance = new HashMap<>();
     Set<V> settled = new HashSet<>();
-    PriorityQueue<Step<V>> frontier = new ArrayHeap<>();
+    AdaptivePriorityQueue<V, Double> frontier = new IndexedArrayHeap<>();
 
     for (V v : graph.vertices()) {
       distance.put(v, Double.POSITIVE_INFINITY);
     }
     distance.put(source, 0.0);
-    frontier.add(new Step<>(source, 0.0));
+    frontier.add(source, 0.0);
 
     while (frontier.size() > 0) {
-      Step<V> closest = frontier.peek();
+      V v = frontier.peek();
       frontier.remove();
-      V v = closest.vertex;
-
-      if (settled.contains(v)) {
-        continue;  // stale entry: v was already settled by a cheaper one
-      }
       settled.add(v);
 
       for (V neighbor : graph.neighbors(v)) {
@@ -51,7 +44,11 @@ public final class Dijkstra {
         double through = distance.get(v) + graph.weight(v, neighbor);
         if (through < distance.get(neighbor)) {
           distance.put(neighbor, through);
-          frontier.add(new Step<>(neighbor, through));
+          if (frontier.contains(neighbor)) {
+            frontier.changePriority(neighbor, through);
+          } else {
+            frontier.add(neighbor, through);
+          }
         }
       }
     }
@@ -65,22 +62,17 @@ public final class Dijkstra {
     Map<V, Double> distance = new HashMap<>();
     Map<V, V> predecessor = new HashMap<>();
     Set<V> settled = new HashSet<>();
-    PriorityQueue<Step<V>> frontier = new ArrayHeap<>();
+    AdaptivePriorityQueue<V, Double> frontier = new IndexedArrayHeap<>();
 
     for (V v : graph.vertices()) {
       distance.put(v, Double.POSITIVE_INFINITY);
     }
     distance.put(source, 0.0);
-    frontier.add(new Step<>(source, 0.0));
+    frontier.add(source, 0.0);
 
     while (frontier.size() > 0) {
-      Step<V> closest = frontier.peek();
+      V v = frontier.peek();
       frontier.remove();
-      V v = closest.vertex;
-
-      if (settled.contains(v)) {
-        continue;
-      }
       settled.add(v);
 
       for (V neighbor : graph.neighbors(v)) {
@@ -91,34 +83,22 @@ public final class Dijkstra {
         if (through < distance.get(neighbor)) {
           distance.put(neighbor, through);
           predecessor.put(neighbor, v);
-          frontier.add(new Step<>(neighbor, through));
+          if (frontier.contains(neighbor)) {
+            frontier.changePriority(neighbor, through);
+          } else {
+            frontier.add(neighbor, through);
+          }
         }
       }
     }
     return new Paths<>(distance, predecessor);
   }
 
-  // A vertex paired with a tentative distance. Steps compare by distance only.
-  private static class Step<V> implements Comparable<Step<V>> {
-    private final V vertex;
-    private final double distance;
-
-    Step(V vertex, double distance) {
-      this.vertex = vertex;
-      this.distance = distance;
-    }
-
-    @Override
-    public int compareTo(Step<V> other) {
-      return Double.compare(this.distance, other.distance);
-    }
-  }
-
   // The result of shortestPaths: the cost of the cheapest path from the source
   // to every vertex, and the vertex before each one on that path.
   public static class Paths<V> {
-    private final Map<V, Double> distance;
-    private final Map<V, V> predecessor;
+    private Map<V, Double> distance;
+    private Map<V, V> predecessor;
 
     Paths(Map<V, Double> distance, Map<V, V> predecessor) {
       this.distance = distance;
