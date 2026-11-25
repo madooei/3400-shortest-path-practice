@@ -6,43 +6,17 @@ import graph.Graph;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests for the network-delay problem. The scenarios are written once here;
- * each solution gets its own subclass that says which class to call, so you
- * can run the suite for one solution at a time.
- */
-public abstract class NetworkDelayTest {
-
-  // Calls the solution under test.
-  protected abstract <V> double networkDelay(Graph<V> graph, V source);
-
-  // Builds a directed graph on the vertices 0 through vertexCount - 1, adding
-  // each link {a, b, w} as an edge from a to b of weight w.
-  private static Graph<Integer> directed(int vertexCount, int[][] links) {
-    Graph<Integer> graph = new AdjacencyListGraph<>();
-    for (int vertex = 0; vertex < vertexCount; vertex++) {
-      graph.addVertex(vertex);
-    }
-    for (int[] link : links) {
-      graph.addEdge(link[0], link[1], link[2]);
-    }
-    return graph;
-  }
-
-  // Builds the network of Example 1 on the problem page.
-  private static Graph<Integer> exampleNetwork() {
-    int[][] links = {{0, 1, 4}, {0, 2, 1}, {2, 1, 2}, {1, 3, 5}, {2, 3, 9}};
-    return directed(4, links);
-  }
+/** Tests for the time a signal takes to reach every vertex. */
+public class NetworkDelayTest {
 
   @Test
-  public void loneVertexHearsTheSignalAtTimeZero() {
+  public void loneVertexReceivesTheSignalAtTimeZero() {
     int[][] links = {};
     assertEquals(0.0, networkDelay(directed(1, links), 0));
   }
 
   @Test
-  public void noEdgesMeansTheOtherVertexNeverHears() {
+  public void noEdgesMeansTheOtherVertexNeverReceives() {
     int[][] links = {};
     assertEquals(-1.0, networkDelay(directed(2, links), 0));
   }
@@ -66,12 +40,12 @@ public abstract class NetworkDelayTest {
   }
 
   @Test
-  public void lastVertexToHearSetsTheTime() {
+  public void lastVertexToReceiveSetsTheTime() {
     assertEquals(8.0, networkDelay(exampleNetwork(), 0));
   }
 
   @Test
-  public void isolatedVertexNeverHears() {
+  public void isolatedVertexNeverReceives() {
     Graph<Integer> graph = exampleNetwork();
     graph.addVertex(4);
     assertEquals(-1.0, networkDelay(graph, 0));
@@ -103,11 +77,41 @@ public abstract class NetworkDelayTest {
   }
 
   @Test
+  public void largeTimeIsKept() {
+    int[][] links = {{0, 1, 2000000000}};
+    assertEquals(2000000000.0, networkDelay(directed(2, links), 0));
+  }
+
+  @Test
   public void stringVerticesWork() {
     Graph<String> graph = new AdjacencyListGraph<>();
     graph.addVertex("Albany");
     graph.addVertex("Boston");
     graph.addEdge("Albany", "Boston", 3.0);
     assertEquals(3.0, networkDelay(graph, "Albany"));
+  }
+
+  // Calls the solution.
+  private static <V> double networkDelay(Graph<V> graph, V source) {
+    return NetworkDelay.networkDelay(graph, source);
+  }
+
+  // Builds a directed graph on the vertices 0 through vertexCount - 1, adding
+  // each link {a, b, w} as an edge from a to b of weight w.
+  private static Graph<Integer> directed(int vertexCount, int[][] links) {
+    Graph<Integer> graph = new AdjacencyListGraph<>();
+    for (int vertex = 0; vertex < vertexCount; vertex++) {
+      graph.addVertex(vertex);
+    }
+    for (int[] link : links) {
+      graph.addEdge(link[0], link[1], link[2]);
+    }
+    return graph;
+  }
+
+  // Builds the network of Example 1 on the problem page.
+  private static Graph<Integer> exampleNetwork() {
+    int[][] links = {{0, 1, 4}, {0, 2, 1}, {2, 1, 2}, {1, 3, 5}, {2, 3, 9}};
+    return directed(4, links);
   }
 }
