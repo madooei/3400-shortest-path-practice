@@ -36,7 +36,7 @@ public final class MinCostPathSettled {
       settled.add(v);
 
       if (v.equals(target)) {
-        return distance.get(v);  // settled: this distance is final
+        return distance.get(v);  // the target is settled, so its distance is final
       }
 
       for (V neighbor : graph.neighbors(v)) {
@@ -54,6 +54,6 @@ public final class MinCostPathSettled {
         }
       }
     }
-    return -1;  // the frontier emptied without ever settling the target
+    return -1;  // the frontier is empty, and the target was never settled
   }
 }

@@ -2,12 +2,12 @@ package demo;
 
 import graph.AdjacencyListGraph;
 import graph.Graph;
-import practice.NetworkDelaySweeping;
+import practice.NetworkDelay;
 
-/** A demo of NetworkDelaySweeping on the notes' first example: four vertices and five links. */
-public final class NetworkDelaySweepingDemo {
+/** A demo of NetworkDelay on the notes' first example: four vertices and five links. */
+public final class NetworkDelayDemo {
 
-  private NetworkDelaySweepingDemo() {
+  private NetworkDelayDemo() {
     // This class should not be instantiated!
   }
 
@@ -23,8 +23,8 @@ public final class NetworkDelaySweepingDemo {
     graph.addEdge(2, 3, 9);
     System.out.println("links: 0->1 (4), 0->2 (1), 2->1 (2), 1->3 (5), 2->3 (9)");
 
-    // Vertex 2 hears the signal at 1, vertex 1 at 3, and vertex 3 at 8. Expect 8.0.
-    double delay = NetworkDelaySweeping.networkDelay(graph, 0);
-    System.out.println("time for every vertex to hear a signal from 0: " + delay);
+    // Vertex 2 receives the signal at 1, vertex 1 at 3, and vertex 3 at 8. Expect 8.0.
+    double delay = NetworkDelay.networkDelay(graph, 0);
+    System.out.println("time for every vertex to receive a signal from 0: " + delay);
   }
 }

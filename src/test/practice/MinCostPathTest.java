@@ -7,35 +7,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for the cheapest-path problem. The scenarios are written once here;
- * each solution gets its own subclass that says which class to call, so you
- * can run the suite for one solution at a time.
+ * The scenarios for the cost of the cheapest path to a target. A concrete
+ * subclass supplies cheapestCost() to pick the solution under test.
  */
 public abstract class MinCostPathTest {
 
   // Calls the solution under test.
   protected abstract <V> double cheapestCost(Graph<V> graph, V source, V target);
-
-  // Builds an undirected graph on the vertices 0 through vertexCount - 1,
-  // adding each edge {a, b, w} in both directions with weight w.
-  private static Graph<Integer> undirected(int vertexCount, int[][] edges) {
-    Graph<Integer> graph = new AdjacencyListGraph<>();
-    for (int vertex = 0; vertex < vertexCount; vertex++) {
-      graph.addVertex(vertex);
-    }
-    for (int[] edge : edges) {
-      graph.addEdge(edge[0], edge[1], edge[2]);
-      graph.addEdge(edge[1], edge[0], edge[2]);
-    }
-    return graph;
-  }
-
-  // Builds the chapter's weighted graph.
-  private static Graph<Integer> chapterGraph() {
-    int[][] edges = {{0, 1, 50}, {0, 2, 6}, {1, 3, 9}, {1, 4, 30},
-                     {2, 3, 7}, {3, 5, 15}, {4, 5, 11}};
-    return undirected(6, edges);
-  }
 
   @Test
   public void targetIsTheSource() {
@@ -78,6 +56,15 @@ public abstract class MinCostPathTest {
   }
 
   @Test
+  public void searchSettlesALoweredVertexBeforeACostlierOne() {
+    // The edge 0-2 puts 2 on the frontier at 10, and the route 0, 1, 2 lowers
+    // it to 2. So 2 is settled before 3, which is on the frontier at 5, and
+    // the route 0, 1, 2, 3 lowers 3 to 3.
+    int[][] edges = {{0, 1, 1}, {0, 2, 10}, {1, 2, 1}, {2, 3, 1}, {0, 3, 5}};
+    assertEquals(3.0, cheapestCost(undirected(4, edges), 0, 3));
+  }
+
+  @Test
   public void isolatedTargetIsUnreachable() {
     Graph<Integer> graph = chapterGraph();
     graph.addVertex(6);
@@ -110,6 +97,12 @@ public abstract class MinCostPathTest {
   }
 
   @Test
+  public void largeCostIsKept() {
+    int[][] edges = {{0, 1, 2000000000}};
+    assertEquals(2000000000.0, cheapestCost(undirected(2, edges), 0, 1));
+  }
+
+  @Test
   public void stringVerticesWork() {
     Graph<String> graph = new AdjacencyListGraph<>();
     graph.addVertex("Albany");
@@ -130,5 +123,26 @@ public abstract class MinCostPathTest {
     graph.addEdge(1000, 1001, 1.0);
     graph.addEdge(1001, 1000, 1.0);
     assertEquals(1.0, cheapestCost(graph, 1000, 1001));
+  }
+
+  // Builds an undirected graph on the vertices 0 through vertexCount - 1,
+  // adding each edge {a, b, w} in both directions with weight w.
+  private static Graph<Integer> undirected(int vertexCount, int[][] edges) {
+    Graph<Integer> graph = new AdjacencyListGraph<>();
+    for (int vertex = 0; vertex < vertexCount; vertex++) {
+      graph.addVertex(vertex);
+    }
+    for (int[] edge : edges) {
+      graph.addEdge(edge[0], edge[1], edge[2]);
+      graph.addEdge(edge[1], edge[0], edge[2]);
+    }
+    return graph;
+  }
+
+  // Builds the chapter's weighted graph.
+  private static Graph<Integer> chapterGraph() {
+    int[][] edges = {{0, 1, 50}, {0, 2, 6}, {1, 3, 9}, {1, 4, 30},
+                     {2, 3, 7}, {3, 5, 15}, {4, 5, 11}};
+    return undirected(6, edges);
   }
 }

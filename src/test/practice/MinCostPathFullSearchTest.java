@@ -2,7 +2,7 @@ package practice;
 
 import graph.Graph;
 
-/** Runs the cheapest-path scenarios against the full-search solution. */
+/** Runs the cheapest-cost scenarios against MinCostPathFullSearch. */
 public class MinCostPathFullSearchTest extends MinCostPathTest {
 
   @Override
