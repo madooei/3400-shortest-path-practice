@@ -3,12 +3,12 @@ package demo;
 import graph.AdjacencyListGraph;
 import graph.Graph;
 import list.List;
-import practice.CheapestPath;
+import practice.ShortestPath;
 
-/** A demo of CheapestPath on the notes' first example, on the chapter's graph. */
-public final class CheapestPathDemo {
+/** A demo of ShortestPath on the notes' first example, on the chapter's graph. */
+public final class ShortestPathDemo {
 
-  private CheapestPathDemo() {
+  private ShortestPathDemo() {
     // This class should not be instantiated!
   }
 
@@ -18,8 +18,8 @@ public final class CheapestPathDemo {
 
     // The path 0 -> 2 -> 3 -> 5 -> 4 costs 39, less than 80 for 0 -> 1 -> 4.
     // Expect 0 2 3 5 4.
-    List<Integer> path = CheapestPath.cheapestPath(graph, 0, 4);
-    String line = "cheapest path from 0 to 4:";
+    List<Integer> path = ShortestPath.search(graph, 0, 4);
+    String line = "shortest path from 0 to 4:";
     for (int i = 0; i < path.size(); i++) {
       line += " " + path.get(i);
     }
