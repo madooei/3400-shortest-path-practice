@@ -24,22 +24,22 @@ public final class Dijkstra {
     Set<V> settled = new HashSet<>();
     AdaptivePriorityQueue<V, Double> frontier = new IndexedArrayHeap<>();
 
-    for (V v : graph.vertices()) {
-      distance.put(v, Double.POSITIVE_INFINITY);
+    for (V vertex : graph.vertices()) {
+      distance.put(vertex, Double.POSITIVE_INFINITY);
     }
     distance.put(source, 0.0);
     frontier.add(source, 0.0);
 
     while (frontier.size() > 0) {
-      V v = frontier.peek();
+      V vertex = frontier.peek();
       frontier.remove();
-      settled.add(v);
+      settled.add(vertex);
 
-      for (V neighbor : graph.neighbors(v)) {
+      for (V neighbor : graph.neighbors(vertex)) {
         if (settled.contains(neighbor)) {
           continue;
         }
-        double through = distance.get(v) + graph.weight(v, neighbor);
+        double through = distance.get(vertex) + graph.weight(vertex, neighbor);
         if (through < distance.get(neighbor)) {
           distance.put(neighbor, through);
           if (frontier.contains(neighbor)) {
