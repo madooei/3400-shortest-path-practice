@@ -31,32 +31,32 @@ public final class TieBreakingDijkstra {
     Set<V> settled = new HashSet<>();
     AdaptivePriorityQueue<V, Double> frontier = new IndexedArrayHeap<>();
 
-    for (V v : graph.vertices()) {
-      distance.put(v, Double.POSITIVE_INFINITY);
+    for (V vertex : graph.vertices()) {
+      distance.put(vertex, Double.POSITIVE_INFINITY);
     }
     distance.put(source, 0.0);
     edgeCount.put(source, 0);
     frontier.add(source, 0.0);
 
     while (frontier.size() > 0) {
-      V v = frontier.peek();
+      V vertex = frontier.peek();
       frontier.remove();
-      settled.add(v);
+      settled.add(vertex);
 
-      if (v.equals(target)) {
+      if (vertex.equals(target)) {
         break;
       }
 
-      for (V neighbor : graph.neighbors(v)) {
+      for (V neighbor : graph.neighbors(vertex)) {
         if (settled.contains(neighbor)) {
           continue;
         }
-        double through = distance.get(v) + graph.weight(v, neighbor);
-        int count = edgeCount.get(v) + 1;
+        double through = distance.get(vertex) + graph.weight(vertex, neighbor);
+        int count = edgeCount.get(vertex) + 1;
         if (through < distance.get(neighbor)) {
           distance.put(neighbor, through);
           edgeCount.put(neighbor, count);
-          predecessor.put(neighbor, v);
+          predecessor.put(neighbor, vertex);
           if (frontier.contains(neighbor)) {
             frontier.changePriority(neighbor, through);
           } else {
@@ -64,7 +64,7 @@ public final class TieBreakingDijkstra {
           }
         } else if (through == distance.get(neighbor) && count < edgeCount.get(neighbor)) {
           edgeCount.put(neighbor, count);
-          predecessor.put(neighbor, v);
+          predecessor.put(neighbor, vertex);
         }
       }
     }
