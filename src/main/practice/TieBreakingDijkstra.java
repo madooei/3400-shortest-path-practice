@@ -12,10 +12,10 @@ import set.Set;
 import stack.ArrayStack;
 import stack.Stack;
 
-/** Practice problem: the shortest path with the fewest edges. */
-public final class FewestEdges {
+/** Practice problem: Dijkstra's algorithm, breaking ties by the fewest edges. */
+public final class TieBreakingDijkstra {
 
-  private FewestEdges() {
+  private TieBreakingDijkstra() {
     // This class should not be instantiated!
   }
 

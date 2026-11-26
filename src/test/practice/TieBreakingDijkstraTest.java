@@ -8,23 +8,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** Tests for the shortest path with the fewest edges. */
-public class FewestEdgesTest {
+public class TieBreakingDijkstraTest {
 
   @Test
   public void pathToTheSourceHasOneVertex() {
-    List<Integer> path = FewestEdges.search(tiedGraph(1), 0, 0);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(1), 0, 0);
     assertEquals(1, path.size());
   }
 
   @Test
   public void pathToTheSourceIsTheSource() {
-    List<Integer> path = FewestEdges.search(tiedGraph(1), 0, 0);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(1), 0, 0);
     assertEquals(0, path.get(0));
   }
 
   @Test
   public void pathToAnUnreachableVertexIsEmpty() {
-    List<Integer> path = FewestEdges.search(tiedGraph(1), 3, 0);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(1), 3, 0);
     assertEquals(0, path.size());
   }
 
@@ -32,28 +32,28 @@ public class FewestEdgesTest {
   public void pathAlongOneEdgeHasTwoVertices() {
     Graph<Integer> graph = vertices(2);
     graph.addEdge(0, 1, 5.0);
-    List<Integer> path = FewestEdges.search(graph, 0, 1);
+    List<Integer> path = TieBreakingDijkstra.search(graph, 0, 1);
     assertEquals(2, path.size());
   }
 
   @Test
-  public void tieIsBrokenByTheFewestEdges() {
+  public void tieIsBrokenByTheTieBreakingDijkstra() {
     // The paths 0, 1, 2, 3 and 0, 4, 3 both cost 4.
-    List<Integer> path = FewestEdges.search(tiedGraph(1), 0, 3);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(1), 0, 3);
     assertEquals(3, path.size());
   }
 
   @Test
   public void tiedPathTakesTheRouteWithFewerEdges() {
     // 3 first gets the distance 4 through 2, and the path through 4 ties it later.
-    List<Integer> path = FewestEdges.search(tiedGraph(1), 0, 3);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(1), 0, 3);
     assertEquals(4, path.get(1));
   }
 
   @Test
   public void cheaperPathWinsOverFewerEdges() {
     // With the edge 4 -> 3 at 2, the path through 4 costs 5, more than 4.
-    List<Integer> path = FewestEdges.search(tiedGraph(2), 0, 3);
+    List<Integer> path = TieBreakingDijkstra.search(tiedGraph(2), 0, 3);
     assertEquals(4, path.size());
   }
 
@@ -71,7 +71,7 @@ public class FewestEdgesTest {
     graph.addEdge(6, 7, 1.0);
     graph.addEdge(7, 8, 1.0);
     graph.addEdge(8, 5, 2.0);
-    List<Integer> path = FewestEdges.search(graph, 0, 5);
+    List<Integer> path = TieBreakingDijkstra.search(graph, 0, 5);
     assertEquals(3, path.get(2));
   }
 
@@ -86,7 +86,7 @@ public class FewestEdgesTest {
     graph.addEdge(1, 2, 1.0);
     graph.addEdge(2, 3, 1.0);
     graph.addEdge(0, 3, 5.0);
-    List<Integer> path = FewestEdges.search(graph, 0, 3);
+    List<Integer> path = TieBreakingDijkstra.search(graph, 0, 3);
     assertEquals(4, path.size());
   }
 
@@ -94,7 +94,7 @@ public class FewestEdgesTest {
   public void pathAcrossALargeWeightIsKept() {
     Graph<Integer> graph = vertices(2);
     graph.addEdge(0, 1, 2000000000.0);
-    List<Integer> path = FewestEdges.search(graph, 0, 1);
+    List<Integer> path = TieBreakingDijkstra.search(graph, 0, 1);
     assertEquals(2, path.size());
   }
 
@@ -104,7 +104,7 @@ public class FewestEdgesTest {
     // asks only 0 for its neighbors.
     CountingGraph graph = new CountingGraph();
     addTiedEdges(graph, 1);
-    FewestEdges.search(graph, 0, 1);
+    TieBreakingDijkstra.search(graph, 0, 1);
     assertEquals(1, graph.neighborCalls);
   }
 
@@ -117,7 +117,7 @@ public class FewestEdgesTest {
     graph.addVertex(1000);
     graph.addVertex(1001);
     graph.addEdge(1000, 1001, 1.0);
-    List<Integer> path = FewestEdges.search(graph, 1000, 1001);
+    List<Integer> path = TieBreakingDijkstra.search(graph, 1000, 1001);
     assertEquals(2, path.size());
   }
 

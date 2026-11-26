@@ -38,14 +38,14 @@ code/
       shortestpath/
         Dijkstra.java                 # copy of the chapter's Dijkstra
       practice/
-        FewestEdges.java              # the shortest path with the fewest edges
+        TieBreakingDijkstra.java      # the shortest path with the fewest edges
         NetworkDelay.java             # time for a signal to reach every vertex
       demo/                           # one demo per solution class
-        FewestEdgesDemo.java
+        TieBreakingDijkstraDemo.java
         NetworkDelayDemo.java
     test/
       practice/
-        FewestEdgesTest.java
+        TieBreakingDijkstraTest.java
         NetworkDelayTest.java
   scripts/
     test.sh                           # compile and run the JUnit tests
@@ -55,17 +55,17 @@ code/
 ## How to compile and run
 
 - `scripts/test.sh` — compiles everything and runs the full JUnit suite.
-- `scripts/test.sh practice.FewestEdgesTest` — compiles everything and runs only that test class, so you can test one solution at a time.
+- `scripts/test.sh practice.TieBreakingDijkstraTest` — compiles everything and runs only that test class, so you can test one solution at a time.
 - `scripts/run.sh demo.NetworkDelayDemo` — compiles everything and runs that one demo. Every solution class has its own demo, `<Class>Demo`.
 
 ## Contents
 
-- `practice.FewestEdges` — `search`, which keeps an edge count next to each distance, lets a tie with fewer edges change the predecessor, stops when the target is settled, and reads the path back with `pathTo`. `pathTo` is given: it is the one from the chapter on graph search.
+- `practice.TieBreakingDijkstra` — `search`, which keeps an edge count next to each distance, lets a tie with fewer edges change the predecessor, stops when the target is settled, and reads the path back with `pathTo`. `pathTo` is given: it is the one from the chapter on graph search.
 - `practice.NetworkDelay` — `networkDelay`, which runs Dijkstra's algorithm and takes the largest distance.
-- `practice.FewestEdgesTest` and `practice.NetworkDelayTest` — the tests for each problem.
-- `demo.FewestEdgesDemo` and `demo.NetworkDelayDemo` — one demo per solution class, each on an example from the notes.
+- `practice.TieBreakingDijkstraTest` and `practice.NetworkDelayTest` — the tests for each problem.
+- `demo.TieBreakingDijkstraDemo` and `demo.NetworkDelayDemo` — one demo per solution class, each on an example from the notes.
 - `shortestpath.Dijkstra` — a copy of the chapter's class. `NetworkDelay` calls `search`.
 - `graph.Graph<V>` and `graph.AdjacencyListGraph<V>` — unchanged copies of the classes from the chapter on graphs. Every solution takes a `Graph`.
-- `adaptiveheap.AdaptivePriorityQueue<T, P>` and `adaptiveheap.IndexedArrayHeap<T, P>` — the priority queue from the chapter on adaptive priority queues. The index map is a `HashMap` instead of a `TreeMap`, so the items need no ordering. `Dijkstra` and `FewestEdges` keep their frontier in one.
+- `adaptiveheap.AdaptivePriorityQueue<T, P>` and `adaptiveheap.IndexedArrayHeap<T, P>` — the priority queue from the chapter on adaptive priority queues. The index map is a `HashMap` instead of a `TreeMap`, so the items need no ordering. `Dijkstra` and `TieBreakingDijkstra` keep their frontier in one.
 - `set` and `map` — unchanged copies of the course's set and map, which the graph, `Dijkstra`, and the solutions are built on.
-- `list` and `stack` — unchanged copies of the course's list and stack. `FewestEdges` returns a `List` and turns the route around with a `Stack`, as `pathTo` does in the chapter on graph search.
+- `list` and `stack` — unchanged copies of the course's list and stack. `TieBreakingDijkstra` returns a `List` and turns the route around with a `Stack`, as `pathTo` does in the chapter on graph search.
