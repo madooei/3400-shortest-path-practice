@@ -1,6 +1,6 @@
 # Shortest Paths — Practice
 
-Two practice problems on shortest paths: the shortest path between two given vertices of an undirected graph, and how long a signal sent from one vertex of a directed graph takes to reach every vertex. Each problem takes a `Graph<V>` and has a JUnit suite.
+Two practice problems on shortest paths: the shortest path with the fewest edges between two given vertices of a directed graph, and how long a signal sent from one vertex of a directed graph takes to reach every vertex. Each problem takes a `Graph<V>` and has a JUnit suite.
 
 ## Prerequisites
 
@@ -38,14 +38,14 @@ code/
       shortestpath/
         Dijkstra.java                 # copy of the chapter's Dijkstra
       practice/
-        ShortestPath.java             # the shortest path to a target
+        FewestEdges.java              # the shortest path with the fewest edges
         NetworkDelay.java             # time for a signal to reach every vertex
       demo/                           # one demo per solution class
-        ShortestPathDemo.java
+        FewestEdgesDemo.java
         NetworkDelayDemo.java
     test/
       practice/
-        ShortestPathTest.java
+        FewestEdgesTest.java
         NetworkDelayTest.java
   scripts/
     test.sh                           # compile and run the JUnit tests
@@ -55,17 +55,17 @@ code/
 ## How to compile and run
 
 - `scripts/test.sh` — compiles everything and runs the full JUnit suite.
-- `scripts/test.sh practice.ShortestPathTest` — compiles everything and runs only that test class, so you can test one solution at a time.
+- `scripts/test.sh practice.FewestEdgesTest` — compiles everything and runs only that test class, so you can test one solution at a time.
 - `scripts/run.sh demo.NetworkDelayDemo` — compiles everything and runs that one demo. Every solution class has its own demo, `<Class>Demo`.
 
 ## Contents
 
-- `practice.ShortestPath` — `search`, which records a predecessor each time a distance drops, stops when the target is settled, and follows the predecessors back.
+- `practice.FewestEdges` — `search`, which keeps an edge count next to each distance, lets a tie with fewer edges change the predecessor, stops when the target is settled, and reads the path back with `pathTo`. `pathTo` is given: it is the one from the chapter on graph search.
 - `practice.NetworkDelay` — `networkDelay`, which runs Dijkstra's algorithm and takes the largest distance.
-- `practice.ShortestPathTest` and `practice.NetworkDelayTest` — the tests for each problem.
-- `demo.ShortestPathDemo` and `demo.NetworkDelayDemo` — one demo per solution class, each on an example from the notes.
+- `practice.FewestEdgesTest` and `practice.NetworkDelayTest` — the tests for each problem.
+- `demo.FewestEdgesDemo` and `demo.NetworkDelayDemo` — one demo per solution class, each on an example from the notes.
 - `shortestpath.Dijkstra` — a copy of the chapter's class. `NetworkDelay` calls `search`.
 - `graph.Graph<V>` and `graph.AdjacencyListGraph<V>` — unchanged copies of the classes from the chapter on graphs. Every solution takes a `Graph`.
-- `adaptiveheap.AdaptivePriorityQueue<T, P>` and `adaptiveheap.IndexedArrayHeap<T, P>` — the priority queue from the chapter on adaptive priority queues. The index map is a `HashMap` instead of a `TreeMap`, so the items need no ordering. `Dijkstra` and `ShortestPath` keep their frontier in one.
+- `adaptiveheap.AdaptivePriorityQueue<T, P>` and `adaptiveheap.IndexedArrayHeap<T, P>` — the priority queue from the chapter on adaptive priority queues. The index map is a `HashMap` instead of a `TreeMap`, so the items need no ordering. `Dijkstra` and `FewestEdges` keep their frontier in one.
 - `set` and `map` — unchanged copies of the course's set and map, which the graph, `Dijkstra`, and the solutions are built on.
-- `list` and `stack` — unchanged copies of the course's list and stack. `ShortestPath` returns a `List` and turns the route around with a `Stack`, as `pathTo` does in the chapter on graph search.
+- `list` and `stack` — unchanged copies of the course's list and stack. `FewestEdges` returns a `List` and turns the route around with a `Stack`, as `pathTo` does in the chapter on graph search.

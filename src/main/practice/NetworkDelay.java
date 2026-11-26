@@ -16,16 +16,14 @@ public final class NetworkDelay {
   // receives it. Assumes graph is not null, source is a vertex of graph, and no
   // edge weight is negative.
   public static <V> double networkDelay(Graph<V> graph, V source) {
-    Map<V, Double> distance = Dijkstra.search(graph, source);
-
+    Map<V, Double> distances = Dijkstra.search(graph, source);
     double slowest = 0.0;
-    for (V v : graph.vertices()) {
-      double time = distance.get(v);
-      if (time == Double.POSITIVE_INFINITY) {
-        return -1;  // this vertex never receives the signal
+    for (Map.Entry<V, Double> entry : distances.entries()) {
+      if (entry.value() == Double.POSITIVE_INFINITY) {
+        return -1;
       }
-      if (time > slowest) {
-        slowest = time;
+      if (slowest < entry.value()) {
+        slowest = entry.value();
       }
     }
     return slowest;
