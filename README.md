@@ -1,6 +1,6 @@
 # Shortest Paths — Practice
 
-Two practice problems on shortest paths: the shortest path with the fewest edges between two given vertices of a directed graph, and how long a signal sent from one vertex of a directed graph takes to reach every vertex. Each problem takes a `Graph<V>` and has a JUnit suite.
+Two practice problems on shortest paths: how long a signal sent from one vertex of a directed graph takes to reach every vertex, and the shortest path with the fewest edges between two given vertices of a directed graph. Each problem takes a `Graph<V>` and has a JUnit suite.
 
 ## Prerequisites
 
@@ -38,15 +38,15 @@ code/
       shortestpath/
         Dijkstra.java                 # copy of the chapter's Dijkstra
       practice/
-        TieBreakingDijkstra.java      # the shortest path with the fewest edges
         NetworkDelay.java             # time for a signal to reach every vertex
+        TieBreakingDijkstra.java      # the shortest path with the fewest edges
       demo/                           # one demo per solution class
-        TieBreakingDijkstraDemo.java
         NetworkDelayDemo.java
+        TieBreakingDijkstraDemo.java
     test/
       practice/
-        TieBreakingDijkstraTest.java
         NetworkDelayTest.java
+        TieBreakingDijkstraTest.java
   scripts/
     test.sh                           # compile and run the JUnit tests
     run.sh                            # compile and run one demo
